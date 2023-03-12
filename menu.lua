@@ -1,3 +1,5 @@
+print("Menu module loaded") -- debug
+local debug = require('debug')
 
 local menuButtons = {
     {text='New Game'},
@@ -55,6 +57,4 @@ function love.keypressed(key)
     end
 end
 
-return function(currentGameState)
-    return menu
-end
+return menu

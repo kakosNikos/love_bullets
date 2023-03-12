@@ -1,5 +1,7 @@
+print("Raid module loaded") -- debug
+local debug = require('debug')
+
 local raid = {}
-dump['state'] = 'Raid'
 
 function raid:update(dt)
     -- Update the game state

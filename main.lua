@@ -1,3 +1,7 @@
+print("main.lua loaded") -- debug
+
+debug = require("unik_debug")
+
 function love.load()
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
@@ -6,15 +10,16 @@ function love.load()
     textFont = love.graphics.newFont("assets/Sono-Regular.ttf", 16)
     love.graphics.setFont(textFont)
 
-    dump = {}
-    function dumpAdd(string)
-        local string
-        dump[#dump+1] = string
-    end
+    -- Set the save game slots
+    Save = {}
+    Save.default = {playerBaseLevel = 1, playerLevel = 1,}
+    baseData = {}
+    baseData.baseLevel = 0
+    baseData.playerLevel = 0
     -- Set up the game states
     gameState = {
         menu = {
-            module = require("menu")(currentGameState),
+            module = require("menu"),
             name = 'Menu',
         },
         base = {
@@ -32,9 +37,12 @@ function love.load()
 
     -- Load the persistent data from file, if it exists
     if love.filesystem.getInfo("save.lua") then
-        baseData = love.filesystem.load("save.lua")()
+        print("getInfo: ", love.filesystem.getInfo("save.lua")) -- debug
+        -- baseData = love.filesystem.load("save.lua")()
+        baseData = {baseLevel = 2, playerLevel = 2} -- Default data if file doesn't exist
+        return baseData
     else
-        baseData = {} -- Default data if file doesn't exist
+        baseData = {baseLevel = 1, playerLevel = 1} -- Default data if file doesn't exist
     end
 end
 
@@ -50,6 +58,11 @@ function love.draw()
 end
 
 function love.quit()
+    -- Write debug log.file
+    debug.saveDebugLog()
     -- Save the persistent data to file
-    love.filesystem.write("save.lua", table.concat(baseData, "\n"))
+    if love.filesystem.getInfo("save.lua") then
+        print("save.lua exists - Scope: love.quit()") -- debug
+        love.filesystem.write("save.lua", love.data.encode("string", "base64", tostring(baseData)))
+    end
 end

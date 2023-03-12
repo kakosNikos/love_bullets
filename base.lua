@@ -1,3 +1,6 @@
+print("Base module loaded") -- debug
+local debug = require('debug')
+
 local base = {}
 dump['state']= 'Base'
 
