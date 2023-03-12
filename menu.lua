@@ -1,21 +1,30 @@
-local menu = {}
-currentGameState = menu
-local menuButtons = {}
-menuButtons[0] = {text='New Game'}
-menuButtons[1] = {text='Quit'}
-local menuBox = {
-    w = 500,
-    h = #menuButtons*200,
-    x = (screenWidth/2)-(menuBox.w/2),
-    y = 200
+
+local menuButtons = {
+    {text='New Game'},
+    {text='Quit'}
 }
+
+local menuBox = {
+    x = love.graphics.getWidth()/2 - 250,
+    y = 120
+}
+
+menuBox.w = 500
+menuBox.h = #menuButtons*200
+
+local menu = {}
+
+function menu:create(currentGameState)
+    self.currentGameState = currentGameState
+end
+
+
 function menu:update(dt)
     -- Update the menu
-    function love.keypressed(key)
-        if isScancodeDown == "escape" then
-            love.event.quit()
-        end
+    if love.mouse.isDown(1) then
+        self.currentGameState = gameState.base
     end
+
 end
 
 function menu:draw()
@@ -26,14 +35,26 @@ function menu:draw()
     drawButtons()
 end
 
-function drawButtons(text, color)
+function drawButtons()
     local loop = 1 
+    love.graphics.setFont(menuFont)
     for k, v in pairs(menuButtons) do
         love.graphics.setColor(1, 0, 0, 1)
-        love.graphics.rectangle('fill', 100, (loop*100), 300, 50)
+        love.graphics.rectangle('fill', (screenWidth/2) - 150, (loop*100) + 50, 300, 50)
         love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.print(v.text, 100, (loop*100), 0, 2, 2)
+        love.graphics.print(v.text, ((screenWidth/2) - (menuFont:getWidth(v.text)/2)), (loop*100) + 57, 0, 1, 1)
         loop = loop + 1
     end
+    love.graphics.setFont(textFont)
 end
-return menu
+
+
+function love.keypressed(key)
+    if key  == "escape" then
+        love.event.quit()
+    end
+end
+
+return function(currentGameState)
+    return menu
+end

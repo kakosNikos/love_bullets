@@ -1,6 +1,11 @@
 function love.load()
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
+
+    menuFont = love.graphics.newFont("tmp/DirtyBrush.ttf", 40)
+    textFont = love.graphics.newFont("tmp/Sono-Regular.ttf", 16)
+    love.graphics.setFont(textFont)
+
     dump = {}
     function dumpAdd(string)
         local string
@@ -9,7 +14,7 @@ function love.load()
     -- Set up the game states
     gameState = {
         menu = {
-            module = require("menu"),
+            module = require("menu")(currentGameState),
             name = 'Menu',
         },
         base = {

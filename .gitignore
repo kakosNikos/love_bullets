@@ -1,0 +1,8 @@
+# ignore vim sessions
+*.vim
+
+#ignore vim swap files
+*.swp
+
+# ignore tmp/ directory
+tmp/
