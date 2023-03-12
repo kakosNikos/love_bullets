@@ -2,8 +2,8 @@ function love.load()
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
 
-    menuFont = love.graphics.newFont("tmp/DirtyBrush.ttf", 40)
-    textFont = love.graphics.newFont("tmp/Sono-Regular.ttf", 16)
+    menuFont = love.graphics.newFont("assets/DirtyBrush.ttf", 40)
+    textFont = love.graphics.newFont("assets/Sono-Regular.ttf", 16)
     love.graphics.setFont(textFont)
 
     dump = {}
